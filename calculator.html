@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMI Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #5bd95b;
+        }
+        .calculator {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .calculator h1 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>EMI Calculator</h1>
+        <div class="form-group">
+            <label for="principal">Loan Amount (Principal):</label>
+            <input type="number" id="principal" placeholder="Enter loan amount">
+        </div>
+        <div class="form-group">
+            <label for="rate">Annual Interest Rate (%):</label>
+            <input type="number" id="rate" step="0.01" placeholder="Enter interest rate">
+        </div>
+        <div class="form-group">
+            <label for="tenure">Loan Tenure (Years):</label>
+            <input type="number" id="tenure" placeholder="Enter tenure in years">
+        </div>
+        <div class="form-group">
+            <button onclick="calculateEMI()">Calculate EMI</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateEMI() {
+            const principal = parseFloat(document.getElementById('principal').value);
+            const annualRate = parseFloat(document.getElementById('rate').value);
+            const tenureYears = parseFloat(document.getElementById('tenure').value);
+
+            if (isNaN(principal) || isNaN(annualRate) || isNaN(tenureYears)) {
+                document.getElementById('result').innerText = "Please enter valid inputs!";
+                return;
+            }
+
+            const monthlyRate = annualRate / (12 * 100);
+            const tenureMonths = tenureYears * 12;
+
+            const emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
+                        (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+
+            document.getElementById('result').innerText = `Your EMI is: ₹${emi.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
